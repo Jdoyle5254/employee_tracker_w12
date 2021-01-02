@@ -1,8 +1,8 @@
-var mysql = require("mysql");
-var util = require('util'); 
+const mysql = require("mysql");
+const util = require('util'); 
 
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
       host: "localhost",
       port: 3306,
       user: "root",
@@ -10,6 +10,13 @@ var connection = mysql.createConnection({
       database: "company_db"
     });
     
-   connection.connect(); 
-   connection.query=util.promisify(connection.query); 
+    //connection.connect(); 
+    connection.query=util.promisify(connection.query); 
+
+   connection.connect(function(err) {
+    if (err) throw err;
+      console.log("error")
+  
+  });
+  
    module.exports = connection 
