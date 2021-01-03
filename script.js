@@ -282,5 +282,57 @@ function viewCompany(){
         console.table(res); 
     }
       )}  
- 
-  
+ //create a function that will pull the employee name as a list for the user to select to 
+ //make changes
+  function updateEmployee(){
+    connection.query("SELECT id, first_name, last_name FROM employee", function(err, res) {
+       if (err) throw err;
+       console.log(res)
+       var names = [];
+       res.forEach(element => {
+         names.push({name : element.first_name + " " + element.last_name, value: element.id});
+       });
+       inquirer
+       .prompt ([
+         {
+          name: "change employee", 
+          type: "list",
+          message: "which employee would you like to update?",
+          choices: names
+        },
+      {
+        name: "options",
+        type: "checkbox",
+        message: "what information would you like to change?",
+        choices: [
+          {
+            name: "first_name",
+          }, 
+          {
+           name: "last_name",
+          },
+          {
+            name: "manager_id",
+          },
+          {
+            name: "role_id",
+          },
+        ]
+      },
+    {
+      name: "updated",
+      type: "input",
+      message: "Please update the field chosen"
+    }])
+    .then((answer) => {
+      connection.query("UPDATE employee Set ? Where ?",
+      [
+        {
+          answer.options: 
+        }
+      ],
+       function(err, res) {
+        if (err) throw err;
+        console.log(res)
+    })
+  }
