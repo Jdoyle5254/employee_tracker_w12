@@ -306,7 +306,8 @@ function viewCompany(){
         message: "what information would you like to change?",
         choices: [
           {
-            name: "first_name",
+            name: "First Name",
+            value: "first_name",
           }, 
           {
            name: "last_name",
@@ -325,12 +326,8 @@ function viewCompany(){
       message: "Please update the field chosen"
     }])
     .then((answer) => {
-      connection.query("UPDATE employee Set ? Where ?",
-      [
-        {
-          answer.options: 
-        }
-      ],
+      var qry = "UPDATE employee Set "+ answer.options+"='" + answer.updated +"'  Where ?"
+      connection.query(qry,
        function(err, res) {
         if (err) throw err;
         console.log(res)
