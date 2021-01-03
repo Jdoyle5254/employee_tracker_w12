@@ -11,68 +11,7 @@ create questions
 add departments, roles, employees (need function to insert into table 3 separate functions)
 view departments, roles, employees (need function to search 3 separate functions)
 update employee roles (need function to change table information )
-function runSearch() {
-  inquirer
-    .prompt({
-      name: "action",
-      type: "rawlist",
-      message: "What would you like to do?",
-      choices: [
-        "Find songs by artist",
-        "Find all artists who appear more than once",
-        "Find data within a specific range",
-        "Search for a specific song",
-        "Find artists with a top song and top album in the same year"
-      ]
-    })
-    .then(function(answer) {
-      switch (answer.action) {
-      case "Find songs by artist":
-        artistSearch();
-        break;
 
-      case "Find all artists who appear more than once":
-        multiSearch();
-        break;
-
-      case "Find data within a specific range":
-        rangeSearch();
-        break;
-
-      case "Search for a specific song":
-        songSearch();
-        break;
-
-      case "Find artists with a top song and top album in the same year":
-        songAndAlbumSearch();
-        break;
-      }
-    });
-}
-// ?'s are placeholders 
-function updateProduct() {
-  console.log("Updating all Rocky Road quantities...\n");
-  var query = connection.query(
-    "UPDATE products SET ? WHERE ?",
-    [
-      {
-        quantity: 100
-      },
-      {
-        flavor: "Rocky Road"
-      }
-    ],
-    function(err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " products updated!\n");
-      // Call deleteProduct AFTER the UPDATE completes
-      deleteProduct();
-    }
-  );
-
-  // logs the actual query being run
-  console.log(query.sql);
-}
 
 function deleteProduct() {
   console.log("Deleting all strawberry icecream...\n");
@@ -142,7 +81,7 @@ function addInformation(){
   inquirer
   .prompt ([
     {
-    name: "selectThing",
+    name: "selectAdd",
     type: "checkbox",
     message: "What information are you adding?",
     choices: [
@@ -161,7 +100,7 @@ function addInformation(){
 
   .then(function(answer){
     console.log(answer)
-    switch(answer.selectThing[0]) {
+    switch(answer.selectAdd[0]) {
       case "Add Department":
       addDept();
       break;
@@ -280,5 +219,68 @@ function addRole(){
 })
 }
 
+function viewCompany(){
+  inquirer
+  .prompt ([
+    {
+      name: "optView",
+      type: "checkbox",
+      message: "What information would you like to view?",
+      choices: [
+        {
+          name: "View Departments",
+        },
+        {
+          name: "View Employees",
+        },
+        {
+          name: "View Roles",
+        },
 
+      ]
+    }
+  ])
+  .then(function(answer){
+    switch(answer.optView[0]) {
+      case "View Departments":
+      viewDept();
+      break;
+      
+      case "View Employees":
+      viewEmp(); 
+      break; 
+      
+      case "View Roles":
+      viewRole();
+      break;  
+    }
+    
+  });
+}
+
+  function viewDept(){ 
+    connection.query("SELECT * FROM department", function(err, res) {
+      if (err) throw err;        
+      // console.log(res);  
+      console.table(res); 
+  })
+}
+
+    
+  function viewEmp(){ 
+    connection.query("SELECT * FROM employee", function(err, res) {
+      if (err) throw err; 
+      // console.log(res)
+      console.table(res);       
+  }
+    )}
+
+    function viewRole(){ 
+      connection.query("SELECT * FROM role", function(err, res) {
+        if (err) throw err;        
+        // console.log(res);  
+        console.table(res); 
+    }
+      )}  
  
+  
