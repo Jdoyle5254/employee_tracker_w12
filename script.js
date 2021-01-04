@@ -13,36 +13,8 @@ view departments, roles, employees (need function to search 3 separate functions
 update employee roles (need function to change table information )
 
 
-function deleteProduct() {
-  console.log("Deleting all strawberry icecream...\n");
-  connection.query(
-    "DELETE FROM products WHERE ?",
-    {
-      flavor: "strawberry"
-    },
-    function(err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " products deleted!\n");
-      // Call readProducts AFTER the DELETE completes
-      readProducts();
-    }
-  );
-}
-
-function readProducts() {
-  console.log("Selecting all products...\n");
-  connection.query("SELECT * FROM products", function(err, res) {
-    if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(res);
-    connection.end();
-  });
-}
 
 */
-
-
-
 startApp();
 
 function startApp() {
@@ -72,6 +44,11 @@ function startApp() {
         case "Update employee roles":
           updateEmployee();
           break;
+
+        case "exit":
+          connection.end();
+          break;
+            
 
       }
     });
@@ -252,8 +229,9 @@ function viewCompany() {
 
         case "View Roles":
           viewRole();
-          break;
+          break;    
       }
+      
 
     });
 }
