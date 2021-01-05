@@ -96,7 +96,7 @@ function addInformation() {
     });
 }
 
-
+// create a function to Add a department to the table  
 function addDept() {
   inquirer
     .prompt([
@@ -116,6 +116,7 @@ function addDept() {
     })
 }
 
+// create a function to Add Employees to the table 
 function addEmp() {
   inquirer
     .prompt([
@@ -160,7 +161,7 @@ function addEmp() {
     })
 }
 
-
+// create a function to Add role into the table 
 function addRole() {
   inquirer
     .prompt([
