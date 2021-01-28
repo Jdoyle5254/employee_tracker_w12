@@ -46,9 +46,7 @@ function startApp() {
           break;
 
         case "exit":
-          connection.end();
-          break;
-            
+          process.exit();
 
       }
     });
@@ -103,7 +101,7 @@ function addDept() {
       {
         name: "departmentName",
         type: "input",
-        message: "Please add the department name?"
+        message: "Please add the department name."
       }
     ])
     .then(function (answer) {
@@ -222,17 +220,20 @@ function viewCompany() {
       switch (answer.optView[0]) {
         case "View Departments":
           viewDept();
+
           break;
 
         case "View Employees":
           viewEmp();
+
           break;
 
         case "View Roles":
           viewRole();
-          break;    
+
+          break;
       }
-      
+
 
     });
 }
@@ -251,6 +252,7 @@ function viewEmp() {
     if (err) throw err;
     // console.log(res)
     console.table(res);
+    nextStep();
   }
   )
 }
@@ -263,6 +265,25 @@ function viewRole() {
   }
   )
 }
+function nextStep() {
+  inquirer.prompt([
+    {
+      name: "nextOpt",
+      type: "confirm",
+      message: "Would you like to continue?",
+
+    }
+  ]).then(function (answer) {
+    if (answer.nextOpt) {
+      startApp();
+    } else {
+      process.exit();
+    }
+  })
+}
+
+
+
 //create a function that will pull the employee name as a list for the user to select to 
 //make changes
 function updateEmployee() {
@@ -312,7 +333,7 @@ function updateEmployee() {
         }])
       .then((answer) => {
         var qry = "";
-    console.log(answer)
+        console.log(answer)
 
         if (answer.options == "last_name" || answer.options == "first_name")
           qry = "UPDATE employee Set " + answer.options + "='" + answer.updated + "'  Where id =" + answer.changeEmployee;
